@@ -4,6 +4,11 @@ Vagrant simple demos with different provisioners
 Assumptions
 ===========
 
+Vagrant version: 1.6.3
+VirtualBox 4.3.12
+Packer 0.6
+
+
 ::
 
     $ vagrant plugin list
