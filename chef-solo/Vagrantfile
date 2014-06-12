@@ -1,0 +1,39 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+NODES         = ENV["NUM_NODES"].nil? ? 2 : ENV["NUM_NODES"].to_i
+BASE_IP       = "192.168.34"
+IP_INCREMENT  = 1
+NNAME         = "test-box-c"
+
+Vagrant.configure("2") do |cluster|
+  # Ensure latest version of Chef is installed.
+  cluster.omnibus.chef_version = :latest
+
+  # Utilize the Berkshelf plugin to resolve cookbook dependencies.
+  cluster.berkshelf.enabled = true
+
+  (1..NODES).each do |index|
+    last_octet = (index + 1) * IP_INCREMENT
+
+    cluster.vm.define "#{NNAME}#{index}".to_sym do |config|
+      # Configure the VM and operating system.
+      config.vm.box = "wheezy_64"
+      config.vm.provider(:virtualbox) { |v| v.customize ["modifyvm", :id, "--memory", 1024] }
+
+      # Set VM hostname
+      config.vm.hostname = "#{NNAME}#{index}"
+      # Set privat network address
+      config.vm.network :private_network, ip: "#{BASE_IP}.#{last_octet}"
+
+      # Provision using Chef-solo
+      config.vm.provision :chef_solo do |chef|
+        chef.custom_config_path = "Vagrantfile.chef"
+        chef.roles_path = "roles"
+        chef.add_recipe "apt"
+        chef.add_role "base"
+      end
+    end
+  end
+end
+

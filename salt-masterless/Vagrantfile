@@ -1,0 +1,38 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  # Base image
+  config.vm.box = "wheezy_64"
+  # Hostname 
+  config.vm.hostname = "test-box-s1"
+
+  # Private network
+  config.vm.network "private_network", ip: "192.168.33.12"
+
+  # Provider overide
+  config.vm.provider "virtualbox" do |vb|
+    vb.customize ["modifyvm", :id, "--memory", "1024"]
+  end
+
+
+  # Provisioning
+  config.vm.synced_folder "salt/roots/", "/srv/"
+  
+  # Set your salt configs here
+  config.vm.provision :salt do |salt|
+    ## Minion config is set to ``file_client: local`` for masterless
+    salt.minion_config = "salt/minion"
+ 
+    ## Installs our example formula in "salt/roots/salt"
+    salt.run_highstate = true
+
+    # Show output 
+    salt.verbose = true
+
+  end
+end
+

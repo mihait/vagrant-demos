@@ -1,0 +1,9 @@
+source 'https://api.berkshelf.com'
+
+cookbook "apt"
+cookbook "ntp"
+cookbook "htop"
+cookbook "openssh"
+cookbook "nginx",      "= 1.1.2"
+cookbook "postgresql", git:  "https://github.com/opscode-cookbooks/postgresql.git"
+
