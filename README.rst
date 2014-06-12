@@ -1,27 +1,34 @@
 Vagrant simple demos with different provisioners 
 ================================================
 
-Assumptions:
-============
+Assumptions
+===========
 
-$ vagrant plugin list
 ::
+
+    $ vagrant plugin list
+
     vagrant-berkshelf (2.0.1)
         - Version Constraint: >= 2.0.1
     vagrant-login (1.0.1, system)
     vagrant-omnibus (1.4.1)
     vagrant-share (1.1.0, system)
 
-$ vagrant box list
 ::
+
+    $ vagrant box list
+
     precise64 (virtualbox, 0)
     trusty_64 (virtualbox, 0)
     wheezy_64 (virtualbox, 0)   <--- you'll need this one :)
 
 
-Usage:
-======
+
+Usage
+=====
+
 ::
+
     $ git clone https://github.com/mihait/vagrant-demos
     $ cd vagrant-demos
 
